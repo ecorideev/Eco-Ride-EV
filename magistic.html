@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite - EV Showroom</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(74, 207, 80, 0.4));
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .cta-nav {
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Main Content */
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Product Gallery */
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Product Info */
+        .product-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            width: 100%;
+        }
+
+        .product-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .description {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .features-list {
+            margin: 1rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .features-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .specs-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-name {
+            font-weight: bold;
+            width: 50%;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 0.8rem;
+            margin-top: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .secondary-button {
+            background: linear-gradient(to right, #333, #555);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+        }
+
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: #fff;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 0.5rem;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                padding: 0.5rem 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .product-gallery {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .product-info {
+                padding: 1rem;
+            }
+            
+            .cta-button {
+                display: block;
+                width: 100%;
+                margin-bottom: 0.5rem;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-left">
+                <img src="stamp_white.png" alt="Showroom Logo" class="logo-img">
+                <div class="logo-text">Eco Ride EV</div>
+            </div>
+            <nav>
+                <div class="hamburger" onclick="toggleMenu()">☰</div>
+                <ul id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="models.html">Models</a></li>
+                    <li><a href="test-ride.html">Test Ride</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="book-ride.html" class="cta-nav">Book Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Image Gallery Section -->
+        <div class="product-gallery">
+            <img src="MAGISTIC.jpg" alt="I-Smart Main View" class="product-image" onclick="openModal(this)">
+            <img src="magistic1.jpg" alt="I-Smart Front View" class="product-image" onclick="openModal(this)">
+            <img src="magistic2.jpg" alt="I-Smart Style View" class="product-image" onclick="openModal(this)">
+            <img src="magistic3.jpg" alt="I-Smart Dashboard" class="product-image" onclick="openModal(this)">
+            <img src="magistic4.jpg" alt="I-Smart Back View" class="product-image" onclick="openModal(this)">
+            <img src="magistic5.jpg" alt="I-Smart Back View" class="product-image" onclick="openModal(this)">
+            <img src="magistic6.jpg" alt="I-Smart Side View" class="product-image" onclick="openModal(this)">
+             <img src="magistic7l.jpg" alt="I-Smart Top View" class="product-image" onclick="openModal(this)">
+            <img src="magistic8l.jpg" alt="I-Smart Side View" class="product-image" onclick="openModal(this)">
+        </div>
+        
+        <!-- Product Info Section -->
+        <div class="product-info">
+            <h1 class="product-title">Magistic</h1>
+            <div class="price-container">
+                <div class="price-option">
+                    <h4>Lead Acid Battery Version</h4>
+                    <div class="price lead-acid-price">₹54,000</div>
+                    <p class="description">
+                60-70km range • 60 km/h top speed • 8hr fast charge
+            </p>
+                </div>
+                <div class="price-option">
+                    <h4>Lithium Battery Version</h4>
+                    <div class="price lithium-price">₹60,000</div>
+                </div>
+            </div>
+            <p class="description">
+                70-75km range • 60 km/h top speed • 4hr fast charge
+            </p>
+            
+             <h3>Key Features:</h3>
+             <ul class="features-list">
+                <li>upto 130 km range per charge</li>
+                <li>1200W BLDC motor</li>
+                <li>60V 30Ah Lithium battery</li>
+                <li>60V 33Ah Super Graphene battery</li>
+                <li>Digital dashboard</li>
+                <li>67.07v_6ah Smart charger</li>
+                <li>48/60/72 support Smart Controller</li>
+            </ul>
+            <div>
+                <a href="book-ride.html" class="cta-button">Book Test Ride</a>
+                <a href="contact.html" class="cta-button secondary-button">Contact Sales</a>
+            </div>
+            
+           <h3>Specifications</h3>
+            <table class="specs-table">
+                <tr>
+                    <td class="spec-name">Motor Power</td>
+                    <td>1200W</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Battery</td>
+                    <td>60V 30Ah Lithium <br>60V 33Ah Super Graphene</td>
+                    
+                </tr>
+                <tr>
+                    <td class="spec-name">Charging Time</td>
+                    <td>Lithium-4 hours(0-100%) <br> Graphene-8 hours(0-100%)</td>
+                    
+                </tr>
+                <tr>
+                    <td class="spec-name">Weight</td>
+                    <td>350 kg</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Top Speed</td>
+                    <td>60 km/h</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Range</td>
+                    <td>upto 100-130 km per charge</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Brakes</td>
+                    <td>Front and rear disc brakes</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Tires</td>
+                    <td>12-inch tubeless</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Load Capacity</td>
+                    <td>350 kg</td>
+                </tr>
+                <tr>
+                    <td class="spec-name">Warranty</td>
+                    <td>1-3 years on battery, 1 years on motor,Controller</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image" src="" alt="Zoomed Image">
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            &copy; 2023 EV Showroom. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById("navMenu");
+            navMenu.classList.toggle("show");
+        }
+
+        // Image modal functionality
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+
+        function openModal(img) {
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
